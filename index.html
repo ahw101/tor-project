@@ -4,26 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tor - Homepage</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
+        /* --- 1. Global Reset & Variables --- */
+        :root {
+            --primary-color: #4facfe;
+            --secondary-color: #00f2fe;
+            --dark-bg: #1a1a2e;
+            --text-color: #333;
+            --glass-bg: rgba(255, 255, 255, 0.1);
         }
 
+        * {
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* --- 2. Navigation (Glassmorphism) --- */
         header {
-            background: #222;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(34, 34, 34, 0.85);
+            backdrop-filter: blur(10px); /* Blurs content behind nav */
             color: white;
-            padding: 20px;
+            padding: 15px 0;
             text-align: center;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 20px;
+        }
+
+        nav {
+            display: inline-block;
+            vertical-align: middle;
         }
 
         nav ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
 
         nav ul li {
@@ -32,54 +70,150 @@
         }
 
         nav ul li a {
-            color: white;
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
         }
 
-        #welcome {
-            text-align: center;
-            padding: 50px 20px;
-            background: #007bff;
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary-color);
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover {
             color: white;
         }
 
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* --- 3. Hero Section (Gradient & Animation) --- */
+        #welcome {
+            height: 80vh; /* Takes up 80% of screen height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 20px;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); /* Diagonal cut at bottom */
+        }
+
+        #welcome h2 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            animation: slideDown 1s ease-out;
+        }
+
+        #welcome p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        /* Modern Button */
         .btn {
             display: inline-block;
             background: white;
             color: #007bff;
-            padding: 10px 20px;
-            margin-top: 15px;
+            padding: 12px 30px;
             text-decoration: none;
             font-weight: bold;
-            border-radius: 5px;
-            transition: 0.3s;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            animation: slideUp 1s ease-out forwards;
+            animation-delay: 0.8s;
         }
 
         .btn:hover {
-            background: #0056b3;
-            color: white;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            background: #fff;
+            color: #0056b3;
         }
 
+        /* --- 4. Content Section (Cards) --- */
         #about {
-            padding: 40px 20px;
+            max-width: 800px;
+            margin: -50px auto 50px auto; /* Overlaps the hero section slightly */
+            padding: 50px;
             text-align: center;
             background: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin: 20px;
-            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            position: relative;
+            z-index: 10;
+            opacity: 0;
+            animation: slideUp 1s ease-out forwards;
+            animation-delay: 1.2s;
         }
 
+        #about h2 {
+            color: #222;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        #about p {
+            line-height: 1.6;
+            color: #666;
+        }
+
+        /* --- 5. Footer --- */
         footer {
             text-align: center;
-            padding: 15px;
+            padding: 30px;
             background: #222;
-            color: white;
-            margin-top: 20px;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* --- 6. Animations --- */
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #welcome h2 { font-size: 2.5rem; }
+            header { padding: 10px 0; }
+            header h1 { display: block; margin: 0 0 10px 0; }
+            nav ul li { margin: 0 10px; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
+
     <header>
         <h1>Tor</h1>
         <nav>
@@ -90,20 +224,22 @@
             </ul>
         </nav>
     </header>
-    
+
     <section id="welcome">
         <h2>Welcome to Tor!</h2>
-        <p>Thank you for visiting our website! We hope you have a great time.</p>
-        <a href="projects.html" class="btn">Projects</a>
+        <p>Explore privacy, freedom, and the future of the web.</p>
+        <a href="projects.html" class="btn">View Projects</a>
     </section>
-    
+
     <section id="about">
         <h2>About Us</h2>
-        <p>We are .</p>
+        <p>We are dedicated to providing secure and private access to information. Our mission is to protect your digital footprint while offering a seamless browsing experience.</p>
     </section>
-    
+
     <footer>
-        <p>We DON'T share any infomation about you and DON'T collect any data.</p>
+        <p>We <strong>DON'T</strong> share any information about you and <strong>DON'T</strong> collect any data.</p>
     </footer>
+    <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script><script>linkvertise(1400498, {whitelist: [], blacklist: [""]});</script>
+
 </body>
 </html>
